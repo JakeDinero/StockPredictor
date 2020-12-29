@@ -9,14 +9,17 @@ sell_date = sys.argv[4]
 
 df = pd.read_csv('us-shareprices-daily.csv', sep = ";")
 
-buy_price = str(df.loc[(df['Ticker'] == ticker) & (df['Date'] == buy_date)]['Open']).split(" ")[0]
-sell_price = str(df.loc[(df['Ticker'] == ticker) & (df['Date'] == sell_date)]['Open']).split(" ")[0]
+buy_price = df.loc[(df['Ticker'] == ticker) & (df['Date'] == buy_date)]['Open'].tolist()[0]
+sell_price = df.loc[(df['Ticker'] == ticker) & (df['Date'] == sell_date)]['Open'].tolist()[0]
+
+# print(buy_price)
+# print(sell_price)
 
 buy_value = quantity * float(buy_price)
 sell_value = quantity * float(sell_price)
-gains = float(sell_value) - float(buy_value)
+gains = sell_value - buy_value
 
 print(f"Trading {ticker}")
-print(f"Bought ${str(buy_value)}")
-print(f"Sold ${str(sell_value)}")
-print(f"Gain of ${gains}")
+print(f"Bought ${round(buy_value, 2)}")
+print(f"Sold ${round(sell_value, 2)}")
+print(f"Gain of ${round(gains, 2)}")
